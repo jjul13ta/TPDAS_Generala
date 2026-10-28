@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="BE/BE.csproj" Id="b32ea422-ff4d-40ed-89ba-13a349f9fa59" />
+  <Project Path="BLL/BLL.csproj" Id="28c7db0f-aa1e-435f-bd0a-173b4b0f593a" />
+  <Project Path="DAL/DAL.csproj" Id="08415b52-392f-4f4f-8255-b3db35f16f21" />
+  <Project Path="TPDAS_Generala/PRESENTACION.csproj" Id="d40b9ee2-198f-4992-8a35-df184ba728fd" />
+</Solution>
