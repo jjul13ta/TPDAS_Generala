@@ -13,12 +13,15 @@ namespace BLL
         {
             BLL_Categoria gestor = null;
 
+            // Los números se llaman "Numero 1", "Numero 2", etc., por eso se resuelven por tipo
+            if (categoria is Numero)
+            {
+                Numero num = (Numero)categoria;
+                return new BLL_Numero(num.Valor);
+            }
+
             switch (categoria.Nombre)
             {
-                case "Numero":
-                    Numero num = null;
-                    gestor = new BLL_Numero(num.Valor); // esto capaz explota
-                    break;
                 case "Escalera":
                     gestor = new BLL_Escalera();
                     break;
@@ -57,6 +60,12 @@ namespace BLL
                 }
             }
             return seAnoto;
+        }
+
+        // Puntos que se obtendrían anotando esos dados en la categoría (sin anotarlos)
+        public int PuntosPosibles(BE.Categoria categoria, List<BE.Dado> dados)
+        {
+            return ObtenerGestor(categoria).calcularPuntos(dados);
         }
 
         public int PuntajeTotal(BE.Planilla planilla)

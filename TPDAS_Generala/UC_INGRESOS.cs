@@ -12,6 +12,8 @@ namespace TPDAS_Generala
 {
     public partial class UC_INGRESOS : UserControl
     {
+        private static readonly Color ColorError = Color.FromArgb(255, 205, 210);
+
         public UC_INGRESOS()
         {
             InitializeComponent();
@@ -21,7 +23,6 @@ namespace TPDAS_Generala
         {
 
         }
-
 
         public string Texto
         {
@@ -43,23 +44,47 @@ namespace TPDAS_Generala
             set { requerido = value; }
         }
 
+        // Oculta el texto ingresado (para contraseñas)
+        public bool EsPassword
+        {
+            get { return textBox1.UseSystemPasswordChar; }
+            set { textBox1.UseSystemPasswordChar = value; }
+        }
 
         public bool Validar()
         {
-            bool ok = requerido;
+            bool ok = true;
 
-
-            if(ok && string.IsNullOrWhiteSpace(textBox1.Text))
+            if (requerido && string.IsNullOrWhiteSpace(textBox1.Text))
             {
-                textBox1.BackColor = Color.Red;
+                textBox1.BackColor = ColorError;
                 ok = false;
             }
             else
             {
                 textBox1.BackColor = Color.White;
-                ok = true;
             }
             return ok;
+        }
+
+        public void Limpiar()
+        {
+            textBox1.Text = "";
+            textBox1.BackColor = Color.White;
+        }
+
+        public void Enfocar()
+        {
+            textBox1.Focus();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            // Al escribir se quita la marca de error
+            if (textBox1.BackColor != Color.White && textBox1.Text.Trim() != "")
+            {
+                textBox1.BackColor = Color.White;
+            }
         }
     }
 }

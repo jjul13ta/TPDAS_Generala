@@ -12,6 +12,8 @@ namespace BLL
     {
 
             public static List<string> SesionesIniciadas = new List<string>();
+            // Usuarios con sesión iniciada (para elegir jugadores al crear una partida)
+            public static List<Usuario> UsuariosLogueados = new List<Usuario>();
             private MP_USUARIO mapper = new MP_USUARIO();
             private BLL_Bitacora gestorBitacora = new BLL_Bitacora();
 
@@ -25,8 +27,11 @@ namespace BLL
 
                 if (u != null)
                 {
-                    if (!SesionesIniciadas.Contains(u.UserName))
-                        SesionesIniciadas.Add(u.UserName);
+                    if (SesionesIniciadas.Contains(u.UserName))
+                        return null; // ya tiene una sesión abierta
+
+                    SesionesIniciadas.Add(u.UserName);
+                    UsuariosLogueados.Add(u);
 
                     gestorBitacora.Registrar(u, "Inicio de sesión");
                 }
@@ -37,7 +42,18 @@ namespace BLL
             public void Logout(Usuario usuario)
             {
                 SesionesIniciadas.Remove(usuario.UserName);
+                UsuariosLogueados.RemoveAll(x => x.ID == usuario.ID);
                 gestorBitacora.Registrar(usuario, "Cierre de sesión");
+            }
+
+            public bool EstaLogueado(string nombre)
+            {
+                return SesionesIniciadas.Contains(nombre);
+            }
+
+            public List<Usuario> Listar()
+            {
+                return mapper.Listar();
             }
 
             // Devuelve false si hay campos vacíos o el nombre ya existe
